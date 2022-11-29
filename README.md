@@ -6,3 +6,6 @@ Basic cli commands https://developer.hashicorp.com/terraform/cli
 
 init , plan , apply , destroy , validate , fmt , refresh , force-unlock , taint ,untaint , graph , state , show , get (used to update or install modules),
 workspace , import , output ,providers , login ,logout ,console.
+
+
+Configuration Language https://developer.hashicorp.com/terraform/language
