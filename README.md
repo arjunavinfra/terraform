@@ -1,3 +1,5 @@
 # terraform
 
-https://developer.hashicorp.com/terraform/cli/commands
+Terrafrom installation https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+
+Basic cli commands https://developer.hashicorp.com/terraform/cli
