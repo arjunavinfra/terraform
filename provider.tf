@@ -11,9 +11,9 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-    Name = "kodecloud"
-    Purpose = "testiing"
-    createdby = "arjun"
+      Name      = "kodecloud"
+      Purpose   = "testiing"
+      createdby = "arjun"
     }
   }
 }
