@@ -18,7 +18,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  subnet_id     = var.subnet_id
+  subnet_id     = tostring(var.subnet_id[0])
   tags = {
     Name = "kubex webserver"
   }

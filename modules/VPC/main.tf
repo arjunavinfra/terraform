@@ -25,7 +25,7 @@ resource "aws_eip" "eip" {
 
 resource "aws_nat_gateway" "nat_gw" {
   allocation_id = aws_eip.eip.id
-  subnet_id     = aws_subnet.subnet_public.id
+  subnet_id     = aws_subnet.subnet_public[0].id
 
   tags = {
     Name = "kubex nat gw"
@@ -37,9 +37,9 @@ resource "aws_nat_gateway" "nat_gw" {
 }
 
 resource "aws_subnet" "subnet_public" {
-  count = 3
+  count      = length(var.pub_subnet_cidr)
   vpc_id     = aws_vpc.kubex_vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = element(var.pub_subnet_cidr,count.index)
   map_public_ip_on_launch = true
   tags = {
     Name = "kubex subnet public  - ${count.index}"
@@ -47,9 +47,9 @@ resource "aws_subnet" "subnet_public" {
 }
 
 resource "aws_subnet" "subnet_private" {
-  count = 3
+  count      = length(var.pri_subnet_cidr)
   vpc_id     = aws_vpc.kubex_vpc.id
-  cidr_block = "10.0.2.0/24"
+  cidr_block = element(var.pri_subnet_cidr,count.index)
   map_public_ip_on_launch = false 
   tags = {
     Name = "kubex subnet private - ${count.index}"
@@ -58,12 +58,6 @@ resource "aws_subnet" "subnet_private" {
 
 resource "aws_route_table" "route_table_public" {
   vpc_id = aws_vpc.kubex_vpc.id
-
-  route {
-    cidr_block = "10.0.1.0/24"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-
   tags = {
     Name = "kubex route table public "
   }
@@ -71,12 +65,6 @@ resource "aws_route_table" "route_table_public" {
 
 resource "aws_route_table" "route_table_private" {
   vpc_id = aws_vpc.kubex_vpc.id
-
-  route {
-    cidr_block = "10.0.1.0/24"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-
   tags = {
     Name = "kubex route table private"
   }
@@ -84,17 +72,28 @@ resource "aws_route_table" "route_table_private" {
 
 
 
-resource "aws_route" "route_public" {
-  route_table_id            = aws_route_table.route_table_public.id
-  destination_cidr_block    = "0.0.0.0/0"
-  gateway_id                = aws_internet_gateway.igw.id
-  depends_on                = [aws_route_table.route_table_public]
-
+resource "aws_route" "route_public_igw" {
+ route_table_id            = aws_route_table.route_table_public.id
+ destination_cidr_block    = "0.0.0.0/0"
+ gateway_id                = aws_internet_gateway.igw.id
+ depends_on                = [aws_route_table.route_table_public]
 }
 
-resource "aws_route" "route_private" {
+resource "aws_route" "route_private_nat_gw" {
   route_table_id            = aws_route_table.route_table_private.id
   destination_cidr_block    = "0.0.0.0/0"
   nat_gateway_id            = aws_nat_gateway.nat_gw.id
   depends_on                = [aws_route_table.route_table_private]
+}
+
+resource "aws_route_table_association" "route_table_association_public" {
+  count          = length(var.pri_subnet_cidr)
+  subnet_id      = element(aws_subnet.subnet_public.*.id,count.index)
+  route_table_id = aws_route_table.route_table_public.id
+}
+
+resource "aws_route_table_association" "route_table_association_private" {
+  count          = length(var.pri_subnet_cidr)
+  subnet_id      = element(aws_subnet.subnet_private.*.id,count.index)
+  route_table_id = aws_route_table.route_table_private.id
 }
