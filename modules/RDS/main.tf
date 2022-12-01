@@ -13,6 +13,9 @@ resource "aws_db_instance" "my_database" {
   skip_final_snapshot  = true
   vpc_security_group_ids = [var.sg]
   db_subnet_group_name  = aws_db_subnet_group.rds.name
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 resource "aws_db_subnet_group" "rds" {
@@ -22,4 +25,9 @@ resource "aws_db_subnet_group" "rds" {
   tags = {
     Name = "My DB subnet group"
   }
+
+  #   lifecycle {
+  #   prevent_destroy = true
+  # }
+
 }
