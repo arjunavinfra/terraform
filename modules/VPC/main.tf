@@ -6,6 +6,8 @@ resource "aws_vpc" "kubex_vpc" {
     tags = {
     Name = "kubex vpc"
   }
+  enable_dns_hostnames = true
+
 }
 
 resource "aws_internet_gateway" "igw" {
