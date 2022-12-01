@@ -7,7 +7,7 @@ resource "random_password" "db_master_pass" {
 
 # the secret
 resource "aws_secretsmanager_secret" "db-pass" {
-  name = "db-password"
+  name = "rds-pass"
 }
 
 # initial version

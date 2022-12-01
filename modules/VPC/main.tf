@@ -1,3 +1,6 @@
+data "aws_availability_zones" "available" {}
+
+
 resource "aws_vpc" "kubex_vpc" {
   cidr_block = "10.0.0.0/16"
     tags = {
@@ -39,6 +42,7 @@ resource "aws_subnet" "subnet_public" {
   count      = length(var.pub_subnet_cidr)
   vpc_id     = aws_vpc.kubex_vpc.id
   cidr_block = element(var.pub_subnet_cidr,count.index)
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   map_public_ip_on_launch = true
   tags = {
     Name = "kubex subnet public  - ${count.index}"
@@ -52,6 +56,7 @@ resource "aws_subnet" "subnet_private" {
   count      = length(var.pri_subnet_cidr)
   vpc_id     = aws_vpc.kubex_vpc.id
   cidr_block = element(var.pri_subnet_cidr,count.index)
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   map_public_ip_on_launch = false 
   tags = {
     Name = "kubex subnet private - ${count.index}"
