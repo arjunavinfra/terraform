@@ -46,11 +46,12 @@ resource "aws_subnet" "subnet_public" {
 }
 
 resource "aws_subnet" "subnet_private" {
+  count = 3
   vpc_id     = aws_vpc.kubex_vpc.id
   cidr_block = "10.0.2.0/24"
   map_public_ip_on_launch = false 
   tags = {
-    Name = "kubex subnet pri"
+    Name = "kubex subnet private - ${count.index}"
   }
 }
 
@@ -63,10 +64,9 @@ resource "aws_route_table" "route_table_public" {
   }
 
   tags = {
-    Name = "kubex route table pub"
+    Name = "kubex subnet public - ${count.index}"
   }
 }
-
 
 resource "aws_route_table" "route_table_private" {
   vpc_id = aws_vpc.kubex_vpc.id
