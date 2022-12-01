@@ -37,11 +37,12 @@ resource "aws_nat_gateway" "nat_gw" {
 }
 
 resource "aws_subnet" "subnet_public" {
+  count = 3
   vpc_id     = aws_vpc.kubex_vpc.id
   cidr_block = "10.0.1.0/24"
   map_public_ip_on_launch = true
   tags = {
-    Name = "kubex subnet pub"
+    Name = "kubex subnet public  - ${count.index}"
   }
 }
 
@@ -64,7 +65,7 @@ resource "aws_route_table" "route_table_public" {
   }
 
   tags = {
-    Name = "kubex subnet public - ${count.index}"
+    Name = "kubex route table public "
   }
 }
 
