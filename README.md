@@ -1,6 +1,6 @@
 # terraform
 
-modify the ssh public key inside EC2 module.
+Modify the ssh public key inside EC2 module.
 
 Deploy the changes by 
 
