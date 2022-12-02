@@ -18,29 +18,6 @@ resource "aws_db_instance" "my_database" {
   # }
 }
 
-variable "identifier" {
-  default = "mydb"
-}
-variable "allocated_storage" {
-  default = 10
-}
-variable "db_name" {
-  default = "postgres"
-}
-variable "engine" {
-  default = "postgres"
-}
-variable "engine_version" {
-  default= "12.9"
-}
-variable "instance_class" {
-  default = "db.t2.micro"
-}
-
-variable "username" {
-  default = "postgres"
-}
-
 resource "aws_db_subnet_group" "rds" {
   name       = "main"
   subnet_ids = var.subnet
