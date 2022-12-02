@@ -1,11 +1,11 @@
 resource "aws_db_instance" "my_database" {
-  identifier           = "mydb"
-  allocated_storage    = 10
-  db_name              = "postgres"
-  engine               = "postgres"
-  engine_version       = "12.9"
-  instance_class       = "db.t2.micro"
-  username             = "postgres"
+  identifier           = var.identifier
+  allocated_storage    = var.allocated_storage
+  db_name              = var.db_name
+  engine               = var.engine
+  engine_version       = var.engine_version
+  instance_class       = var.instance_class
+  username             = var.username
   password             = random_password.db_master_pass.result
   multi_az              = false
   #Sparameter_group_name = aws_db_parameter_group.my_databse.name
@@ -16,6 +16,29 @@ resource "aws_db_instance" "my_database" {
   # lifecycle {
   #   prevent_destroy = true
   # }
+}
+
+variable "identifier" {
+  default = "mydb"
+}
+variable "allocated_storage" {
+  default = 10
+}
+variable "db_name" {
+  default = "postgres"
+}
+variable "engine" {
+  default = "postgres"
+}
+variable "engine_version" {
+  default= "12.9"
+}
+variable "instance_class" {
+  default = "db.t2.micro"
+}
+
+variable "username" {
+  default = "postgres"
 }
 
 resource "aws_db_subnet_group" "rds" {
