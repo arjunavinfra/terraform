@@ -30,6 +30,11 @@ resource "aws_instance" "web" {
   subnet_id     = tostring(var.subnet_id[0])
   vpc_security_group_ids = [var.sg]
   key_name = aws_key_pair.ec2_key.id
+  user_data = <<EOF
+      #bin/bash 
+      apt update 
+      apt install  postgresql-client -y"
+  EOF
   tags = {
     Name = "kubex webserver"
   }

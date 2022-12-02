@@ -2,12 +2,13 @@ resource "random_password" "db_master_pass" {
   length           = 20
   special          = true
   min_special      = 5
-  override_special = "!#$%^&*()-_=+[]{}<>:?"
+  override_special = "!#"
 }
 
 # the secret
 resource "aws_secretsmanager_secret" "db-pass" {
-  name = "rds-pass"
+  name = "rds-password-secrete"
+  recovery_window_in_days = 0 
 }
 
 # initial version

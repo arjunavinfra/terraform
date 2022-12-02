@@ -131,30 +131,26 @@ resource "aws_security_group" "kubex-sg" {
     from_port = "0"
     to_port   = "0"
     protocol  = "-1"
-    self      = true
+    cidr_blocks = ["0.0.0.0/0"]
   }
     ingress {
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
     from_port = 22
     to_port = 22
     protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
     ingress {
-  cidr_blocks = [
-    "0.0.0.0/0"
-  ]
-  from_port = 5432
-  to_port = 5432
-  protocol = "tcp"
+    from_port = 5432
+    to_port = 5432
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
 }
 
   egress {
     from_port = "0"
     to_port   = "0"
     protocol  = "-1"
-    self      = "true"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
