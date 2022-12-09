@@ -2,6 +2,7 @@
 
 Pre steps:
 1. Confgure aws-cli access 
+
 2.Modify the ssh public key inside EC2 module https://github.com/arjunavinfra/terraform/blob/main/modules/EC2/variables.tf
 
 **Deploy the changes by** 
