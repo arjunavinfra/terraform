@@ -7,7 +7,7 @@ Pre steps:
 
 **Deploy the changes by** 
 
-```
+```ruby
 terraform init ; 
 terraform plan ;
 terraform apply --auto-approve
@@ -15,16 +15,20 @@ terraform apply --auto-approve
 
 **login to the EC2 host then run** 
 
- ```
+ ```ruby
  psql -h <hostname of RDS>
  ```
- 
  
 username: postgres
 database Password can be found under the AWS service secretsmanager
  
 **Destory the infra using**
  
- ```
+ ```ruby
  terraform destroy 
  ```
+
+
+terraform plan output 
+
+```
